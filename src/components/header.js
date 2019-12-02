@@ -4,9 +4,9 @@ class Button extends React.Component {
 
     render() {
         return(
-            <button>
-                Click me
-            </button>
+            <h2>
+                Nursing Timer
+            </h2>
         )
     }
 }
