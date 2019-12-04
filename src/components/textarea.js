@@ -1,12 +1,5 @@
 import React from 'react';
 
-class TextArea extends React.Component {
-
-    render() {
-        return(
-            <p>Basic Text Here</p>
-        )
-    }
-}
+const TextArea = props => <p>{props.text}</p>
 
 export default TextArea;

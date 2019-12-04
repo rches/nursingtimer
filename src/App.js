@@ -9,11 +9,12 @@ import TextArea from './components/textarea';
 
 class App extends React.Component {
   render () {
+    const text = "this is some test text"
     return(
       <div className="wrapper">
       <Header />
       <Button />
-      <TextArea />
+      <TextArea text={text}/>
       <Footer />
       </div>
     )
