@@ -24,6 +24,7 @@ class App extends React.Component {
         if (!this.state.isOn) {
             this.setState({ startDate: new Date() });
         } else if (this.state.isOn) {
+            this.setState({ endDate: new Date() });
         }
     };
 
@@ -35,6 +36,7 @@ class App extends React.Component {
                     {this.state.isOn ? "Stop the time" : "Start the time"}
                 </button>
                 <TextArea text={this.state.startDate.toString()} />
+                <TextArea text={this.state.endDate.toString()} />
                 <Footer />
             </div>
         );
