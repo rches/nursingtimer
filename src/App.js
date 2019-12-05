@@ -10,19 +10,22 @@ class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      newDate: '',
+      startDate: '',
+      endDate: '',
       isOn: false,
       clickCount: 0
-
     }
   }
 
   handleClick = (e) => {
     e.preventDefault();
     this.setState({isOn: !this.state.isOn});
-    if(this.state.isOn) {
-      this.setState({newDate: new Date()})
-    }       
+    this.setState({clickCount: +1})
+    if(!this.state.isOn) {
+      this.setState({startDate: new Date()})
+    } else if (this.state.isOn)        {
+
+    }
     
   }
 
@@ -33,7 +36,7 @@ class App extends React.Component {
       <button onClick={this.handleClick}>
                 {this.state.isOn? 'Stop the time' : 'Start the time'}
             </button>
-      <TextArea text={this.state.newDate.toString()}/>
+      <TextArea text={this.state.startDate.toString()}/>
       <Footer />
       </div>
     )
