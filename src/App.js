@@ -27,7 +27,6 @@ class App extends React.Component {
   }
 
   render () {
-    const text = "this is some test text"
     return(
       <div className="wrapper">
       <Header />
