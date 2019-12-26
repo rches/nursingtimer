@@ -1,5 +1,9 @@
-import React from 'react';
+import React from "react";
 
-const TextArea = props => <p>{props.text}</p>
+const TextArea = props => (
+    <p>
+        {props.timeType} {props.text}
+    </p>
+);
 
 export default TextArea;

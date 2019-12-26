@@ -1,8 +1,11 @@
 import React from "react";
 import "./App.css";
-import Header from "./components/header";
-import Footer from "./components/footer";
+import Header from "./components/layout/header.js";
+import Footer from "./components/layout/footer.js";
 import TextArea from "./components/textarea";
+import TimerButton from "./components/TimerButton";
+import LoggerButton from "./components/LoggerButton";
+import { base } from "./base";
 
 // import { directive } from '@babel/types';
 
@@ -13,11 +16,12 @@ class App extends React.Component {
             startDate: "",
             endDate: "",
             isOn: false,
-            clickCount: 0
+            clickCount: 0,
+            submitMounted: false
         };
     }
 
-    handleClick = e => {
+    handleTimerClick = e => {
         e.preventDefault();
         this.setState({ isOn: !this.state.isOn });
         this.setState({ clickCount: this.state.clickCount + 1 });
@@ -33,29 +37,46 @@ class App extends React.Component {
     };
 
     render() {
-        let timerButton;
+        // let timerButton;
 
-        if (this.state.clickCount < 2) {
-            timerButton = (
-                <button onClick={this.handleClick}>
-                    {this.state.isOn ? "Stop the time" : "Start the time"}
-                </button>
-            );
-        } else {
-            timerButton = (
-                <button onClick={this.handleClick}>Reset the Timer!</button>
-            );
-        }
+        // if (this.state.clickCount < 2) {
+        //     <TimerButton
+        //         onClick={this.handleClick}
+        //         {...(this.state.isOn ? (text = {}) : "Start the time")}
+        //     ></TimerButton>;
+        // } else {
+        //     timerButton = (
+        //         <button onClick={this.handleClick}>Reset the Timer!</button>
+        //     );
+        // }
+
         return (
             <div className="wrapper">
                 <Header />
-                {timerButton}
+                {this.state.clickCount < 2 && (
+                    <TimerButton
+                        onClick={this.handleTimerClick}
+                        text={this.state.isOn ? "End Timer" : "Start Timer"}
+                    />
+                )}
+                {this.state.clickCount >= 2 && (
+                    <LoggerButton
+                        onClick={this.handleLoggerClick}
+                        text="Log the info!!!!"
+                    />
+                )}
                 <br />
 
-                <TextArea text={this.state.startDate.toString()} />
-                <TextArea text={this.state.endDate.toString()} />
-                <TextArea text={this.state.clickCount} />
+                <TextArea
+                    text={this.state.startDate.toString()}
+                    timeType="Start Time:"
+                />
+                <TextArea
+                    text={this.state.endDate.toString()}
+                    timeType="End Time:"
+                />
                 <br />
+
                 <button>Log this info!</button>
                 <Footer />
             </div>

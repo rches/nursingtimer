@@ -1,5 +1,5 @@
-import Rebase from `re-base`;
-import firebase from `firebase`
+import firebase from "firebase";
+require("dotenv").config();
 
 const config = {
     apiKey: process.env.REACT_APP_FIREBASE_KEY,
@@ -10,11 +10,10 @@ const config = {
     messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
     appId: process.env.REACT_APP_FIREBASE_APP_ID,
     measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
-}
+};
 
 firebase.initializeApp(config);
-firebase.analytics();
 
-const base = Rebase.createClass(app.database())
+const base = firebase.database();
 
-export {base}
+export { base };
