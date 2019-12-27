@@ -1,4 +1,5 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/firestore";
 require("dotenv").config();
 
 const config = {
@@ -14,6 +15,6 @@ const config = {
 
 firebase.initializeApp(config);
 
-const base = firebase.database();
+const base = firebase.firestore();
 
 export { base };
