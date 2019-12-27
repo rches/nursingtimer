@@ -16,8 +16,7 @@ class App extends React.Component {
             startDate: "",
             endDate: "",
             isOn: false,
-            clickCount: 0,
-            submitMounted: false
+            clickCount: 0
         };
     }
 
@@ -30,29 +29,35 @@ class App extends React.Component {
         } else if (this.state.isOn) {
             this.setState({ endDate: new Date() });
         }
+    };
 
-        if (this.state.clickCount === 2) {
+    handleResetClick = e => {
+        e.preventDefault();
+        if (this.state.clickCount >= 2) {
             alert("Would you like to reset the timer?");
         }
+        this.setState({
+            startDate: "",
+            endDate: "",
+            isOn: false,
+            clickCount: 0
+        });
+    };
+
+    handleLoggerClick = e => {
+        e.preventDefault();
+        base.collection("feeding").add({
+            startDate: this.state.startDate,
+            endDate: this.state.endDate
+        });
     };
 
     render() {
-        // let timerButton;
-
-        // if (this.state.clickCount < 2) {
-        //     <TimerButton
-        //         onClick={this.handleClick}
-        //         {...(this.state.isOn ? (text = {}) : "Start the time")}
-        //     ></TimerButton>;
-        // } else {
-        //     timerButton = (
-        //         <button onClick={this.handleClick}>Reset the Timer!</button>
-        //     );
-        // }
-
         return (
             <div className="wrapper">
                 <Header />
+                {/* this evaluation below reads 'if clickCount is less than 2 display TimerButton' - React Documentation!
+                 */}
                 {this.state.clickCount < 2 && (
                     <TimerButton
                         onClick={this.handleTimerClick}
@@ -60,10 +65,16 @@ class App extends React.Component {
                     />
                 )}
                 {this.state.clickCount >= 2 && (
-                    <LoggerButton
-                        onClick={this.handleLoggerClick}
-                        text="Log the info!!!!"
-                    />
+                    <>
+                        <LoggerButton
+                            onClick={this.handleLoggerClick}
+                            text="Log the info!!!!"
+                        />
+                        <TimerButton
+                            onClick={this.handleResetClick}
+                            text="Start Over"
+                        />
+                    </>
                 )}
                 <br />
 
@@ -77,7 +88,6 @@ class App extends React.Component {
                 />
                 <br />
 
-                <button>Log this info!</button>
                 <Footer />
             </div>
         );
