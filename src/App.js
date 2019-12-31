@@ -1,13 +1,11 @@
 import React from "react";
-import "./App.css";
-import Header from "./components/layout/header.js";
-import Footer from "./components/layout/footer.js";
-import TextArea from "./components/textarea";
-import TimerButton from "./components/TimerButton";
-import LoggerButton from "./components/LoggerButton";
-import { base } from "./base";
-
-// import { directive } from '@babel/types';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import NewTimer from "./pages/NewTimer.js";
+import LogIn from "./pages/LogIn";
+import ChildSelect from "./pages/ChildSelect.js";
+import Reports from "./pages/Reports.js";
+import Welcome from "./pages/Welcome.js";
+import { auth, base, firebase } from "./base.js";
 
 class App extends React.Component {
     constructor(props) {
@@ -16,80 +14,87 @@ class App extends React.Component {
             startDate: "",
             endDate: "",
             isOn: false,
-            clickCount: 0
+            clickCount: 0,
+            user: {},
+            loggedIn: false
         };
     }
 
-    handleTimerClick = e => {
-        e.preventDefault();
-        this.setState({ isOn: !this.state.isOn });
-        this.setState({ clickCount: this.state.clickCount + 1 });
-        if (!this.state.isOn) {
-            this.setState({ startDate: new Date() });
-        } else if (this.state.isOn) {
-            this.setState({ endDate: new Date() });
-        }
-    };
+    signInUser = () => {
+        const provider = new firebase.auth.GoogleAuthProvider();
 
-    handleResetClick = e => {
-        e.preventDefault();
-        if (this.state.clickCount >= 2) {
-            alert("Would you like to reset the timer?");
-        }
-        this.setState({
-            startDate: "",
-            endDate: "",
-            isOn: false,
-            clickCount: 0
-        });
-    };
-
-    handleLoggerClick = e => {
-        e.preventDefault();
-        base.collection("feeding").add({
-            startDate: this.state.startDate,
-            endDate: this.state.endDate
-        });
+        firebase
+            .auth()
+            .signInWithPopup(provider)
+            .then(result => {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                var token = result.credential.accessToken;
+                // The signed-in user info.
+                const user = result.user;
+                this.setState({ user: user });
+                console.log(user);
+                // ...
+            })
+            .catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // The email of the user's account used.
+                var email = error.email;
+                // The firebase.auth.AuthCredential type that was used.
+                var credential = error.credential;
+                // ...
+            });
     };
 
     render() {
         return (
-            <div className="wrapper">
-                <Header />
-                {/* this evaluation below reads 'if clickCount is less than 2 display TimerButton' - React Documentation!
-                 */}
-                {this.state.clickCount < 2 && (
-                    <TimerButton
-                        onClick={this.handleTimerClick}
-                        text={this.state.isOn ? "End Timer" : "Start Timer"}
-                    />
-                )}
-                {this.state.clickCount >= 2 && (
-                    <>
-                        <LoggerButton
-                            onClick={this.handleLoggerClick}
-                            text="Log the info!!!!"
-                        />
-                        <TimerButton
-                            onClick={this.handleResetClick}
-                            text="Start Over"
-                        />
-                    </>
-                )}
-                <br />
+            <Router>
+                <div>
+                    <ul>
+                        <li>
+                            <Link to="/">Log In</Link>
+                        </li>
+                        <li>
+                            <Link to="/welcome">Welcome</Link>
+                        </li>
+                        <li>
+                            <Link to="/childselect">Child Select</Link>
+                        </li>
+                        <li>
+                            <Link to="/newtimer">New Timer</Link>
+                        </li>
+                        <li>
+                            <Link to="/reports">Reports</Link>
+                        </li>
+                    </ul>
 
-                <TextArea
-                    text={this.state.startDate.toString()}
-                    timeType="Start Time:"
-                />
-                <TextArea
-                    text={this.state.endDate.toString()}
-                    timeType="End Time:"
-                />
-                <br />
+                    <hr />
 
-                <Footer />
-            </div>
+                    <div>{this.state.user.displayName}</div>
+
+                    <Switch>
+                        <Route exact path="/">
+                            <LogIn
+                                signInUser={this.signInUser}
+                                user={this.state.user}
+                            />
+                        </Route>
+                        <Route path="/welcome">
+                            <Welcome />
+                        </Route>
+                        <Route path="/childselect">
+                            <ChildSelect />
+                        </Route>
+                        <Route path="/newtimer">
+                            <NewTimer />
+                        </Route>
+                        <Route path="/reports">
+                            <Reports />
+                        </Route>
+                    </Switch>
+                </div>
+            </Router>
         );
     }
 }
