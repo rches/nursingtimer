@@ -20,6 +20,16 @@ class App extends React.Component {
         };
     }
 
+    // Timer Data Object needs:
+    //child name
+    //age
+    //time stamp logged
+    //start time
+    //end time
+    //feeeding type
+    //notes
+    //logged by: user name
+
     signInUser = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
 
@@ -27,8 +37,6 @@ class App extends React.Component {
             .auth()
             .signInWithPopup(provider)
             .then(result => {
-                // This gives you a Google Access Token. You can use it to access the Google API.
-                var token = result.credential.accessToken;
                 // The signed-in user info.
                 const user = result.user;
                 this.setState({ user: user });
