@@ -40,8 +40,6 @@ class App extends React.Component {
                 // The signed-in user info.
                 const user = result.user;
                 this.setState({ user: user });
-                console.log(user);
-                // ...
             })
             .catch(function(error) {
                 // Handle Errors here.
