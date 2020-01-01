@@ -1,14 +1,18 @@
-import React from 'react';
+import React from "react";
 
-class Button extends React.Component {
+const Header = props => {
+    const isLoggedIn = props.isLoggedIn;
 
-    render() {
-        return(
-            <h2>
-                Nursing Timer
-            </h2>
-        )
-    }
-}
+    return (
+        <>
+            <h2>Nursing Timer from a function</h2>
+            {isLoggedIn ? (
+                <div>Hello with a feeling, {props.userName}</div>
+            ) : (
+                <div>Please log in!</div>
+            )}
+        </>
+    );
+};
 
-export default Button;
+export default Header;

@@ -5,17 +5,14 @@ import LogIn from "./pages/LogIn";
 import ChildSelect from "./pages/ChildSelect.js";
 import Reports from "./pages/Reports.js";
 import Welcome from "./pages/Welcome.js";
-import { auth, base, firebase } from "./base.js";
+import { firebase } from "./base.js";
+import Header from "./components/layout/header";
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            startDate: "",
-            endDate: "",
-            isOn: false,
-            clickCount: 0,
-            user: {},
+            userName: "",
             loggedIn: false
         };
     }
@@ -37,25 +34,36 @@ class App extends React.Component {
             .auth()
             .signInWithPopup(provider)
             .then(result => {
-                // The signed-in user info.
-                const user = result.user;
-                this.setState({ user: user });
+                console.log("Log In Successful");
             })
             .catch(function(error) {
-                // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                // The email of the user's account used.
-                var email = error.email;
-                // The firebase.auth.AuthCredential type that was used.
-                var credential = error.credential;
-                // ...
+                console.log(error.message);
             });
     };
+
+    componentDidMount() {
+        firebase.auth().onAuthStateChanged(user => {
+            let displayName;
+            if (user) {
+                // User is signed in.
+                displayName = user.displayName;
+                this.setState({ loggedIn: true, userName: displayName });
+                // ...
+            } else {
+                displayName = "";
+                this.setState({ loggedIn: false, userName: displayName });
+            }
+        });
+    }
 
     render() {
         return (
             <Router>
+                <Header
+                    userName={this.state.userName}
+                    isLoggedIn={this.state.loggedIn}
+                />
+
                 <div>
                     <ul>
                         <li>
@@ -77,14 +85,9 @@ class App extends React.Component {
 
                     <hr />
 
-                    <div>{this.state.user.displayName}</div>
-
                     <Switch>
                         <Route exact path="/">
-                            <LogIn
-                                signInUser={this.signInUser}
-                                user={this.state.user}
-                            />
+                            <LogIn signInUser={this.signInUser} />
                         </Route>
                         <Route path="/welcome">
                             <Welcome />

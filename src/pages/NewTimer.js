@@ -54,7 +54,6 @@ class NewTimer extends React.Component {
     render() {
         return (
             <div className="wrapper">
-                <Header />
                 {/* this evaluation below reads 'if clickCount is less than 2 display TimerButton' - React Documentation!
                  */}
                 {this.state.clickCount < 2 && (
