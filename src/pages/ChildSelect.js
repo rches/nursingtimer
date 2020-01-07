@@ -4,7 +4,33 @@ import SelectChildList from "../components/SelectChildList";
 import { base } from "../base";
 
 class ChildSelect extends React.Component {
-    childArray = () => {};
+    constructor(props) {
+        super(props);
+        this.state = {
+            childArray: []
+        };
+    }
+
+    componentDidMount() {
+        base.collection("Children").onSnapshot(query => {
+            query.keys(doc => {
+                this.setState(prevState => ({
+                    childArray: [...prevState.childArray, doc.id]
+                }));
+                console.log(doc.id);
+            });
+        });
+        // .doc("ChildrenList")
+
+        // .get()
+        // .then(doc => {
+        //     // Object.keys(doc._snapshot).forEach(names => console.log(names));
+        //     const names = doc.data();
+        //     console.log(names.ChildrenName);
+        //     this.setState({ childArray: names.ChildrenName });
+        // });
+    }
+
     render() {
         return (
             <>
@@ -15,7 +41,7 @@ class ChildSelect extends React.Component {
                 </div>
                 <div>
                     <h1>Select Child</h1>
-                    <SelectChildList childArray={this.childArray} />
+                    <SelectChildList childArray={this.state.childArray} />
                 </div>
             </>
         );
