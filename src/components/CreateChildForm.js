@@ -13,9 +13,11 @@ class CreateChildForm extends React.Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        base.collection("Children")
-            .doc(this.state.value)
-            .set({ ChildName: this.state.value });
+        base.collection("Nursing")
+            .doc()
+            .set({ Name: this.state.value });
+
+        this.props.hideForm();
     };
 
     render() {

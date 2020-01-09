@@ -15,7 +15,8 @@ class NewTimer extends React.Component {
             startDate: "",
             endDate: "",
             isOn: false,
-            clickCount: 0
+            clickCount: 0,
+            childName: ""
         };
     }
 

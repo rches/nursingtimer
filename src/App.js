@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import NewTimer from "./pages/NewTimer.js";
 import LogIn from "./pages/LogIn";
-import ChildSelect from "./pages/ChildSelect.js";
+import MainLanding from "./pages/MainLanding.js";
 import Reports from "./pages/Reports.js";
 import Welcome from "./pages/Welcome.js";
 import { firebase } from "./base.js";
@@ -73,7 +73,7 @@ class App extends React.Component {
                             <Link to="/welcome">Welcome</Link>
                         </li>
                         <li>
-                            <Link to="/childselect">Child Select</Link>
+                            <Link to="/mainlanding">Main Landing</Link>
                         </li>
                         <li>
                             <Link to="/newtimer">New Timer</Link>
@@ -92,8 +92,8 @@ class App extends React.Component {
                         <Route path="/welcome">
                             <Welcome />
                         </Route>
-                        <Route path="/childselect">
-                            <ChildSelect />
+                        <Route path="/mainlanding">
+                            <MainLanding />
                         </Route>
                         <Route path="/newtimer">
                             <NewTimer />
