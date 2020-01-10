@@ -7,8 +7,8 @@ class SelectChildList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedChildName: "Child here",
-            selectedChildID: "fdsagdsagdsagdgdsa"
+            selectedChildName: "",
+            selectedChildID: ""
         };
     }
     // componentDidMount() {
@@ -36,8 +36,6 @@ class SelectChildList extends React.Component {
     render() {
         return (
             <Router>
-                <div>{this.state.selectedChildID}</div>
-
                 <div>
                     <ul>
                         {this.props.payLoad.map(payLoad => (
@@ -61,7 +59,10 @@ class SelectChildList extends React.Component {
                                 path={"/newtimer/" + payLoad.id}
                                 key={payLoad.id}
                             >
-                                <NewTimer />
+                                <NewTimer
+                                    childID={this.state.selectedChildID}
+                                    childName={this.state.selectedChildName}
+                                />
                             </Route>
                         ))}
                     </Switch>

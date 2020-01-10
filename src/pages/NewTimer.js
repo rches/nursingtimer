@@ -15,8 +15,7 @@ class NewTimer extends React.Component {
             startDate: "",
             endDate: "",
             isOn: false,
-            clickCount: 0,
-            childName: ""
+            clickCount: 0
         };
     }
 
@@ -46,10 +45,12 @@ class NewTimer extends React.Component {
 
     handleLoggerClick = e => {
         e.preventDefault();
-        base.collection("feeding").add({
-            startDate: this.state.startDate,
-            endDate: this.state.endDate
-        });
+        base.collection("Nursing")
+            .doc(this.props.childID)
+            .add({
+                startDate: this.state.startDate,
+                endDate: this.state.endDate
+            });
     };
 
     render() {

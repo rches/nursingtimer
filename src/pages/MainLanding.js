@@ -1,7 +1,6 @@
 import React from "react";
 import CreateChildForm from "../components/CreateChildForm";
 import SelectChildList from "../components/SelectChildList";
-import ChildList from "./ChildList";
 import { base, firebase } from "../base";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
