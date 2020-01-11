@@ -11,7 +11,8 @@ class MainLanding extends React.Component {
             payLoad: [],
             formVisible: false,
             selectedChildName: "",
-            selectedChildID: ""
+            selectedChildID: "",
+            userName: ""
         };
     }
 
@@ -35,6 +36,11 @@ class MainLanding extends React.Component {
         } catch (e) {
             console.error(e);
         }
+        try {
+            this.setState({ userName: this.props.userName });
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     toggleForm = e => {
@@ -53,7 +59,10 @@ class MainLanding extends React.Component {
                 {this.state.formVisible && (
                     <CreateChildForm hideForm={this.hideForm} />
                 )}
-                <SelectChildList payLoad={this.state.payLoad} />
+                <SelectChildList
+                    payLoad={this.state.payLoad}
+                    userName={this.props.userName}
+                />
             </div>
         );
     }

@@ -62,6 +62,7 @@ class SelectChildList extends React.Component {
                                 <NewTimer
                                     childID={this.state.selectedChildID}
                                     childName={this.state.selectedChildName}
+                                    userName={this.props.userName}
                                 />
                             </Route>
                         ))}

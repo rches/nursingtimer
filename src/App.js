@@ -77,7 +77,7 @@ class App extends React.Component {
                         </Route>
 
                         <Route path="/mainlanding">
-                            <MainLanding />
+                            <MainLanding userName={this.state.userName} />
                         </Route>
 
                         <Route path="/reports">
