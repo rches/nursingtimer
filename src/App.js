@@ -1,11 +1,5 @@
 import React from "react";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import NewTimer from "./pages/NewTimer.js";
 import LogIn from "./pages/LogIn";
 import MainLanding from "./pages/MainLanding.js";
@@ -13,7 +7,6 @@ import Reports from "./pages/Reports.js";
 import Welcome from "./pages/Welcome.js";
 import { firebase } from "./base.js";
 import Header from "./components/layout/header";
-import LogOut from "./pages/LogOut";
 
 class App extends React.Component {
     constructor(props) {
@@ -63,15 +56,9 @@ class App extends React.Component {
 
                 <div>
                     <ul>
-                        {this.state.loggedIn ? (
-                            <li>
-                                <Link to="/logout">Log Out</Link>
-                            </li>
-                        ) : (
-                            <li>
-                                <Link to="/">Log In</Link>
-                            </li>
-                        )}
+                        <li>
+                            <Link to="/">Log In</Link>
+                        </li>
 
                         <li>
                             <Link to="/mainlanding">Home</Link>
@@ -86,15 +73,7 @@ class App extends React.Component {
 
                     <Switch>
                         <Route exact path="/">
-                            {this.state.loggedIn ? (
-                                <Redirect to="/mainlanding" />
-                            ) : (
-                                <LogIn signInUser={this.signInUser} />
-                            )}
-                        </Route>
-
-                        <Route path="/logout">
-                            <LogOut />
+                            <LogIn signInUser={this.signInUser} />
                         </Route>
 
                         <Route path="/mainlanding">

@@ -6,21 +6,23 @@ import {
     Link,
     Redirect
 } from "react-router-dom";
-import firebase from "../base.js";
+import { firebase } from "../base.js";
 
 class LogOut extends React.Component {
-    render() {
+    redirect = () =>
         firebase
             .auth()
             .signOut()
+            .then()
             .catch(function(error) {
                 // An error happened.
             });
-
+    render() {
         return (
-            <div>
-                <Redirect to="/" />
-            </div>
+            <>
+                <div>{this.redirect()}</div>
+                <Redirect to="/" />;
+            </>
         );
     }
 }
