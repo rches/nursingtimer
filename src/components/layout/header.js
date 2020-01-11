@@ -7,7 +7,7 @@ const Header = props => {
         <>
             <h2>Nursing Timer from a function</h2>
             {isLoggedIn ? (
-                <div>Hello with a feeling, {props.userName}</div>
+                <div>Hello, {props.userName}</div>
             ) : (
                 <div>Please log in!</div>
             )}

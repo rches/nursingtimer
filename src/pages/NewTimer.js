@@ -4,7 +4,14 @@ import Footer from "../components/layout/footer.js";
 import TextArea from "../components/textarea";
 import TimerButton from "../components/TimerButton";
 import LoggerButton from "../components/LoggerButton";
-import { base } from "../base";
+import { base, firebase } from "../base";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    Redirect
+} from "react-router-dom";
 
 // import { directive } from '@babel/types';
 
@@ -15,7 +22,10 @@ class NewTimer extends React.Component {
             startDate: "",
             endDate: "",
             isOn: false,
-            clickCount: 0
+            clickCount: 0,
+            childID: "",
+            childName: "",
+            isVisible: true
         };
     }
 
@@ -43,21 +53,31 @@ class NewTimer extends React.Component {
         });
     };
 
-    handleLoggerClick = e => {
+    handleLoggerClick = (e, props) => {
         e.preventDefault();
         base.collection("Nursing")
             .doc(this.props.childID)
-            .add({
-                startDate: this.state.startDate,
-                endDate: this.state.endDate
+            .update({
+                feeding: firebase.firestore.FieldValue.arrayUnion({
+                    Name: this.state.childName,
+                    interaction_type: "Nursing",
+                    startDate: this.state.startDate,
+                    endDate: this.state.endDate,
+                    duration: this.state.startDate - this.state.endDate
+                })
             });
     };
 
+    componentDidMount() {
+        this.setState({
+            childID: this.props.childID,
+            childName: this.props.childName
+        });
+    }
+
     render() {
-        return (
-            <div className="wrapper">
-                {/* this evaluation below reads 'if clickCount is less than 2 display TimerButton' - React Documentation!
-                 */}
+        const yesChild = (
+            <div>
                 {this.state.clickCount < 2 && (
                     <TimerButton
                         onClick={this.handleTimerClick}
@@ -77,6 +97,9 @@ class NewTimer extends React.Component {
                     </>
                 )}
                 <br />
+                <div>
+                    <div>New nursing timer for {this.state.childName}</div>
+                </div>
 
                 <TextArea
                     text={this.state.startDate.toString()}
@@ -87,8 +110,13 @@ class NewTimer extends React.Component {
                     timeType="End Time:"
                 />
                 <br />
-
                 <Footer />
+            </div>
+        );
+
+        return (
+            <div className="wrapper">
+                {this.props.childID ? yesChild : <Redirect to="/mainlanding" />}
             </div>
         );
     }

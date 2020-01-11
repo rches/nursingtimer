@@ -1,5 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    Redirect
+} from "react-router-dom";
 import NewTimer from "./pages/NewTimer.js";
 import LogIn from "./pages/LogIn";
 import MainLanding from "./pages/MainLanding.js";
@@ -7,6 +13,7 @@ import Reports from "./pages/Reports.js";
 import Welcome from "./pages/Welcome.js";
 import { firebase } from "./base.js";
 import Header from "./components/layout/header";
+import LogOut from "./pages/LogOut";
 
 class App extends React.Component {
     constructor(props) {
@@ -16,16 +23,6 @@ class App extends React.Component {
             loggedIn: false
         };
     }
-
-    // Timer Data Object needs:
-    //child name
-    //age
-    //time stamp logged
-    //start time
-    //end time
-    //feeeding type
-    //notes
-    //logged by: user name
 
     signInUser = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -66,18 +63,20 @@ class App extends React.Component {
 
                 <div>
                     <ul>
+                        {this.state.loggedIn ? (
+                            <li>
+                                <Link to="/logout">Log Out</Link>
+                            </li>
+                        ) : (
+                            <li>
+                                <Link to="/">Log In</Link>
+                            </li>
+                        )}
+
                         <li>
-                            <Link to="/">Log In</Link>
+                            <Link to="/mainlanding">Home</Link>
                         </li>
-                        <li>
-                            <Link to="/welcome">Welcome</Link>
-                        </li>
-                        <li>
-                            <Link to="/mainlanding">Main Landing</Link>
-                        </li>
-                        <li>
-                            <Link to="/newtimer">New Timer</Link>
-                        </li>
+
                         <li>
                             <Link to="/reports">Reports</Link>
                         </li>
@@ -87,17 +86,21 @@ class App extends React.Component {
 
                     <Switch>
                         <Route exact path="/">
-                            <LogIn signInUser={this.signInUser} />
+                            {this.state.loggedIn ? (
+                                <Redirect to="/mainlanding" />
+                            ) : (
+                                <LogIn signInUser={this.signInUser} />
+                            )}
                         </Route>
-                        <Route path="/welcome">
-                            <Welcome />
+
+                        <Route path="/logout">
+                            <LogOut />
                         </Route>
+
                         <Route path="/mainlanding">
                             <MainLanding />
                         </Route>
-                        <Route path="/newtimer">
-                            <NewTimer />
-                        </Route>
+
                         <Route path="/reports">
                             <Reports />
                         </Route>
