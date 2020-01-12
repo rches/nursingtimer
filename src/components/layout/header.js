@@ -4,14 +4,20 @@ const Header = props => {
     const isLoggedIn = props.isLoggedIn;
 
     return (
-        <>
-            <h2>Nursing Timer from a function</h2>
-            {isLoggedIn ? (
-                <div>Hello, {props.userName}</div>
-            ) : (
-                <div>Please log in!</div>
-            )}
-        </>
+        <div className="container">
+            <div className="header row">
+                <div className="two-thirds column">
+                    <h4>Infant Nursing Timer</h4>
+                </div>
+                {isLoggedIn ? (
+                    <div className="one-third column">
+                        Hello, {props.userName}
+                    </div>
+                ) : (
+                    <div className="one-third column">Please log in!</div>
+                )}
+            </div>
+        </div>
     );
 };
 

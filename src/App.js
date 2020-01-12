@@ -7,6 +7,8 @@ import Reports from "./pages/Reports.js";
 import Welcome from "./pages/Welcome.js";
 import { firebase } from "./base.js";
 import Header from "./components/layout/header";
+import "./App.css";
+import useSpring from "react-spring";
 
 class App extends React.Component {
     constructor(props) {
@@ -46,6 +48,11 @@ class App extends React.Component {
         });
     }
 
+    toggleNav = e => {
+        e.preventDefault();
+        this.setState({ navVis: !this.state.navVis });
+    };
+
     render() {
         return (
             <Router>
@@ -53,23 +60,27 @@ class App extends React.Component {
                     userName={this.state.userName}
                     isLoggedIn={this.state.loggedIn}
                 />
-
+                <button onClick={this.toggleNav}>Toggle Nav</button>
                 <div>
-                    <ul>
-                        <li>
-                            <Link to="/">Log In</Link>
-                        </li>
+                    {this.state.navVis ? (
+                        <div></div>
+                    ) : (
+                        <div className="nav">
+                            <ul>
+                                <li>
+                                    <Link to="/">Log In</Link>
+                                </li>
 
-                        <li>
-                            <Link to="/mainlanding">Home</Link>
-                        </li>
+                                <li>
+                                    <Link to="/mainlanding">Home</Link>
+                                </li>
 
-                        <li>
-                            <Link to="/reports">Reports</Link>
-                        </li>
-                    </ul>
-
-                    <hr />
+                                <li>
+                                    <Link to="/reports">Reports</Link>
+                                </li>
+                            </ul>
+                        </div>
+                    )}
 
                     <Switch>
                         <Route exact path="/">
