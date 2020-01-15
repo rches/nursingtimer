@@ -23,15 +23,27 @@ class CreateChildForm extends React.Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
-                <label>
-                    Name:
-                    <input
-                        type="text"
-                        value={this.state.value}
-                        onChange={this.handleChange}
-                    />
-                </label>
-                <input type="submit" value="Submit" />
+                <div className="row">
+                    <div className="six columns">
+                        <label>
+                            Name:
+                            <input
+                                className="u-full-width"
+                                type="text"
+                                value={this.state.value}
+                                onChange={this.handleChange}
+                            />
+                        </label>
+                        <div className="six columns">
+                            <input
+                                className="u-full-width"
+                                type="submit"
+                                value="Submit"
+                                onClick={this.props.handleClick}
+                            />
+                        </div>
+                    </div>
+                </div>
             </form>
         );
     }

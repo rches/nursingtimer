@@ -1,8 +1,7 @@
 import React from "react";
 import CreateChildForm from "../components/CreateChildForm";
 import SelectChildList from "../components/SelectChildList";
-import { base, firebase } from "../base";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { base } from "../base";
 
 class MainLanding extends React.Component {
     constructor(props) {
@@ -12,7 +11,8 @@ class MainLanding extends React.Component {
             formVisible: false,
             selectedChildName: "",
             selectedChildID: "",
-            userName: ""
+            userName: "",
+            listVisible: false
         };
     }
 
@@ -43,26 +43,80 @@ class MainLanding extends React.Component {
         }
     }
 
+    componentDidUpdate() {
+        try {
+            let childArr = [];
+
+            base.collection("Nursing")
+                .get()
+                .then(querySnapshot => {
+                    querySnapshot.forEach(doc => {
+                        let load = doc.data();
+                        let id = doc.id;
+                        // console.log(load, id);
+                        childArr.push({ id: id, load });
+                    });
+                    this.setState({
+                        payLoad: [...childArr]
+                    });
+                });
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
     toggleForm = e => {
         e.preventDefault();
         this.setState({ formVisible: !this.state.formVisible });
+    };
+
+    toggleList = e => {
+        e.preventDefault();
+        this.setState({ listVisible: !this.state.listVisible });
     };
 
     hideForm = () => {
         this.setState({ formVisible: false });
     };
 
+    handleClick = () => {
+        this.setState(prevState => {
+            return { count: prevState.count + 1 };
+        });
+    };
+
     render() {
         return (
-            <div>
-                <button onClick={this.toggleForm}>Toggle Form</button>
+            <div className="container">
+                <div className="row">
+                    {this.state.listVisible ? (
+                        <></>
+                    ) : (
+                        <button
+                            className="u-full-width"
+                            onClick={this.toggleForm}
+                        >
+                            Add Child!
+                        </button>
+                    )}
+                </div>
                 {this.state.formVisible && (
-                    <CreateChildForm hideForm={this.hideForm} />
+                    <CreateChildForm
+                        hideForm={this.hideForm}
+                        handleClick={this.handleClick}
+                    />
                 )}
-                <SelectChildList
-                    payLoad={this.state.payLoad}
-                    userName={this.props.userName}
-                />
+                <div className="row">
+                    <button className="u-full-width" onClick={this.toggleList}>
+                        {this.state.listVisible ? "Go Back" : "Select Child!"}
+                    </button>
+                </div>
+                {this.state.listVisible && (
+                    <SelectChildList
+                        payLoad={this.state.payLoad}
+                        userName={this.props.userName}
+                    />
+                )}
             </div>
         );
     }

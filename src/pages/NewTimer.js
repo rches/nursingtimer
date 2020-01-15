@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../components/layout/header.js";
 import Footer from "../components/layout/footer.js";
 import TextArea from "../components/textarea";
 import TimerButton from "../components/TimerButton";
@@ -12,8 +11,7 @@ import {
     Link,
     Redirect
 } from "react-router-dom";
-
-// import { directive } from '@babel/types';
+import moment from "moment";
 
 class NewTimer extends React.Component {
     constructor(props) {
@@ -21,6 +19,7 @@ class NewTimer extends React.Component {
         this.state = {
             startDate: "",
             endDate: "",
+            duration: "",
             isOn: false,
             clickCount: 0,
             childID: "",
@@ -34,9 +33,17 @@ class NewTimer extends React.Component {
         this.setState({ isOn: !this.state.isOn });
         this.setState({ clickCount: this.state.clickCount + 1 });
         if (!this.state.isOn) {
-            this.setState({ startDate: new Date() });
+            this.setState({
+                startDate: moment()
+                    .unix()
+                    .toString()
+            });
         } else if (this.state.isOn) {
-            this.setState({ endDate: new Date() });
+            this.setState({
+                endDate: moment()
+                    .unix()
+                    .toString()
+            });
         }
     };
 
@@ -53,7 +60,7 @@ class NewTimer extends React.Component {
         });
     };
 
-    handleLoggerClick = (e, props) => {
+    handleLoggerClick = e => {
         e.preventDefault();
         base.collection("Nursing")
             .doc(this.props.childID)
@@ -76,6 +83,15 @@ class NewTimer extends React.Component {
     }
 
     render() {
+        let validStartDate;
+        let validEndDate;
+
+        if (this.state.startDate) {
+            validStartDate = moment(this.state.startDate, "X").format("LLLL");
+        }
+        if (this.state.endDate) {
+            validEndDate = moment(this.state.endDate, "X").format("LLLL");
+        }
         const yesChild = (
             <div>
                 {this.state.clickCount < 2 && (
@@ -88,7 +104,7 @@ class NewTimer extends React.Component {
                     <>
                         <LoggerButton
                             onClick={this.handleLoggerClick}
-                            text="Log the info!!!!"
+                            text="Log the info!"
                         />
                         <TimerButton
                             onClick={this.handleResetClick}
@@ -101,14 +117,8 @@ class NewTimer extends React.Component {
                     <div>New nursing timer for {this.state.childName}</div>
                 </div>
 
-                <TextArea
-                    text={this.state.startDate.toString()}
-                    timeType="Start Time:"
-                />
-                <TextArea
-                    text={this.state.endDate.toString()}
-                    timeType="End Time:"
-                />
+                <TextArea text={validStartDate} timeType="Start Time:" />
+                <TextArea text={validEndDate} timeType="End Time:" />
                 <br />
                 <Footer />
             </div>

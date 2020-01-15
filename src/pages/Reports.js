@@ -5,7 +5,7 @@ import { base } from "../base";
 
 class Reports extends React.Component {
     render() {
-        return <h1>Reports here yo!</h1>;
+        return <h1>Reports coming soon!</h1>;
     }
 }
 

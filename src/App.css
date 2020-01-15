@@ -26,13 +26,42 @@
 
 /* Grid
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+body {
+    background-image: linear-gradient(to bottom right, #b29f94, #6038137a);
+}
+
+a:link {
+    text-decoration: none;
+}
 
 .header {
-    margin-top: 3em;
+    margin-top: 1em;
 }
 
 .nav {
-    background-color: #ff0;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    margin-bottom: 1em;
+}
+
+.half-nav {
+    background-color: #d1dedf;
+    width: 50%;
+    height: 5rem;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 5rem;
+    transition: border 0.25s linear;
+    border-bottom: 3px solid rgba(255, 255, 255, 0);
+}
+
+.half-nav:focus {
+    border-bottom: 3px solid #888;
+}
+
+.noShow {
+    opacity: 0;
 }
 
 .container {
@@ -197,7 +226,6 @@ body {
     font-weight: 400;
     font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial,
         sans-serif;
-    color: #222;
 }
 
 /* Typography
@@ -272,10 +300,14 @@ p {
 /* Links
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 a {
-    color: #1eaedb;
+    color: #4b3c22;
 }
 a:hover {
-    color: #0fa0ce;
+    color: #3f3420;
+}
+
+a:active {
+    color: #3f3420;
 }
 
 /* Buttons
@@ -298,8 +330,8 @@ input[type="button"] {
     text-decoration: none;
     white-space: nowrap;
     background-color: transparent;
-    border-radius: 4px;
-    border: 1px solid #bbb;
+    border-radius: 6px;
+    border: 1px solid #d1dedf;
     cursor: pointer;
     box-sizing: border-box;
 }
