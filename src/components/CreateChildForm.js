@@ -39,7 +39,6 @@ class CreateChildForm extends React.Component {
                                 className="u-full-width"
                                 type="submit"
                                 value="Submit"
-                                onClick={this.props.handleClick}
                             />
                         </div>
                     </div>
